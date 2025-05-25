@@ -113,3 +113,19 @@ Gensyn через веб-интерфейс.
 При необходимости изменить параметры воркера - количество шагов в раунде, объем
 используемой видеопамяти и т.п. - это можно сделать также при помощи переменных
 окружения, представленных в файле `env/swarm.env`.
+
+Финальная команда для запуска может выглядеть следующим образом:
+```
+docker run -d \
+    --gpus='"device=0"' \
+    -p 57517 \
+    -p 43212/udp \
+    -p 51888/udp \
+    -p 38331 \
+    -e SSH_ENABLE=true \
+    -e TS_ENABLE=true \
+    -e TS_AUTHKEY=YOUR_TS_AUTHKEY \
+    -e SWARM_API_KEY=YOUR_SWARM_API_KEY_IN_BASE64 \
+    -e SWARM_USER_DATA=YOUR_SWARM_USER_DATA_IN_BASE64 \
+    mtchuikov/gensyn-in-docker
+```
