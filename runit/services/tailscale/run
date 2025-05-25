@@ -1,0 +1,15 @@
+#!/bin/sh
+
+exec 2>&1
+
+TS_HOSTNAME="$(hostname)"
+
+. /opt/utils/load-env.sh
+load_env /etc/container_environment/tailscale.env
+
+if [ "$TS_ENABLE" = "true" ]; then
+    tailscaleup
+else
+    sv down tailscale
+    exit 0
+fi

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+exec 2>&1
+
+NVITOP_EXPORTER_HOSTNAME="$(hostname)"
+
+. /opt/utils/load-env.sh
+load_env /etc/container_environment/nvitop-exporter.env
+
+if [ "$NVITOP_EXPORTER_ENABLE" = "true" ]; then
+    pipx run nvitop-exporter \
+        --hostname "$NVITOP_EXPORTER_HOSTNAME" \
+        --bind-address "$NVITOP_EXPORTER_ADDR" \
+        --port "$NVITOP_EXPORTER_PORT" \
+        --interval "$NVITOP_EXPORTER_SCRAPE_INTERVAL"
+else
+    sv down nvitop-exporter
+    exit 0
+fi

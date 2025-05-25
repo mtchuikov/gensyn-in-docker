@@ -1,0 +1,33 @@
+model_name_or_path: Gensyn/Qwen2.5-{{ env('SWARM_MODEL_PARAMS_NUMBER', '0.5') }}B-Instruct
+model_revision: {{ env('SWARM_MODEL_REVISION', 'main') }}
+torch_dtype: {{ env('SWARM_TORCH_DTYPE', 'bfloat16') }}
+attn_implementation: {{ env('SWARM_ATTN_IMPLEMENTATION', 'flash_attention_2') }}
+bf16: {{ env('SWARM_BF16', 'true') }}
+tf32: {{ env('SWARM_TF32', 'true') }}
+dataset_id_or_path: {{ env('SWARM_DATASET_ID_OR_PATH', 'openai/gsm8k') }}
+max_steps: {{ env('SWARM_MAX_STEPS', '150') }}
+num_train_epochs: {{ env('SWARM_NUM_TRAIN_EPOCHS', '1') }}
+gradient_accumulation_steps: {{ env('SWARM_GRADIENT_ACCUMULATION_STEPS', '4') }}
+gradient_checkpointing: {{ env('SWARM_GRADIENT_CHECKPOINTING', 'true') }}
+gradient_checkpointing_kwargs:
+  use_reentrant: {{ env('SWARM_GRADIENT_USE_REENTRANT', 'false') }}
+learning_rate: {{ env('SWARM_LEARNING_RATE', '2.0e-7') }}
+lr_scheduler_type: {{ env('SWARM_LR_SCHEDULER_TYPE', 'cosine') }}
+warmup_ratio: {{ env('SWARM_WARMUP_RATIO', '0.03') }}
+optim: {{ env('SWARM_OPTIM', 'adamw_8bit') }}
+use_vllm: {{ env('SWARM_USE_VLLM', 'true') }}
+vllm_gpu_memory_utilization: {{ env('SWARM_VLLM_GPU_MEMORY_UTILIZATION', '0.8') }}
+num_generations: {{ env('SWARM_NUM_GENERATIONS', '2') }}
+per_device_train_batch_size: {{ env('SWARM_PER_DEVICE_TRAIN_BATCH_SIZE', '4') }}
+beta: {{ env('SWARM_BETA', '0.001') }}
+max_prompt_length: {{ env('SWARM_MAX_PROMPT_LENGTH', '256') }}
+max_completion_length: {{ env('SWARM_MAX_COMPLETION_LENGTH', '1024') }}
+logging_strategy: {{ env('SWARM_LOGGING_STRATEGY', 'steps') }}
+logging_steps: {{ env('SWARM_LOGGING_STEPS', '2') }}
+save_strategy: {{ env('SWARM_SAVE_STRATEGY', 'steps') }}
+save_steps: {{ env('SWARM_SAVE_STEPS', '25') }}
+seed: {{ env('SWARM_SEED', '42') }}
+public_maddr: {{ env('SWARM_PUBLIC_MADDR', '/ip4/38.101.215.12/tcp/30002') }}
+host_maddr: {{ env('SWARM_HOST_MADDR', '/ip4/0.0.0.0/tcp/38331') }}
+max_rounds: {{ env('SWARM_MAX_ROUNDS', '10000') }}
+output_dir: runs/gsm8k/multinode/Qwen2.5-{{ env('SWARM_MODEL_PARAMS_NUMBER', '0.5') }}B-Instruct-Gensyn-Swarm

@@ -1,0 +1,26 @@
+#!/bin/sh
+
+exec 2>&1
+
+. /opt/utils/load-env.sh
+load_env /etc/container_environment/swarm.env
+
+if [ "$SWARM_BIG" = "true" ]; then
+    CONTRACT_ADDRESS="0x6947c6E196a48B77eFa9331EC1E3e45f3Ee5Fd58"
+    GAME="dapo"
+else
+    CONTRACT_ADDRESS="0x69C6e1D608ec64885E7b185d39b04B491a71768C"
+    GAME="gsm8k"
+fi
+
+cd /opt/swarm
+
+ORG_ID=$(jq -r 'to_entries[] | .value.orgId' modal-login/temp-data/userData.json)
+
+./.venv/bin/python3 \
+    -m hivemind_exp.gsm8k.train_single_gpu \
+    --config swarm.yaml \
+    --identity_path swarm.pem \
+    --modal_org_id "$ORG_ID" \
+    --contract_address "$CONTRACT_ADDRESS" \
+    --game "$GAME"

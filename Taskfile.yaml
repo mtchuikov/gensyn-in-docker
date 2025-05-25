@@ -1,0 +1,48 @@
+version: '3.0'
+
+tasks:
+  build-image:
+    desc: |
+      Сценарий для создания образа с воркером Gensyn. Он клонирует официальный
+      репозиторий с кодом воркера с Github, устанавливает локально необходимые 
+      зависимости и собирает образ.
+    cmds:
+      - task: build-image:clore-repo
+      - task: build-image:install-deps
+      - task: build-image:build
+
+  build-image:clore-repo:
+    desc: |
+      Подготовка к сборке воркера Gensyn: создание необходимых директорий, 
+      клонирование репозитория с кодом воркера, а также копирование необходимых файлов 
+      в директорию сборки.
+    cmds:
+      - mkdir -p build/rl-swarm cache
+      - cmd: cd cache && git clone https://github.com/gensyn-ai/rl-swarm
+        ignore_error: true
+      - cp cache/rl-swarm/requirements-gpu.txt build/rl-swarm
+      - cp -r cache/rl-swarm/hivemind_exp build/rl-swarm
+      - cp -r cache/rl-swarm/modal-login build/rl-swarm
+
+  build-image:install-deps:
+    desc: |
+      Подготовка к сборке воркера Gensyn: создание виртуального окружения Python и
+      установка всех необходимых внешних зависимостей.
+    dir: build/rl-swarm
+    cmds:
+      - python3 -m venv .venv
+      - .venv/bin/pip install -r requirements-gpu.txt
+      - .venv/bin/pip install flash-attn --no-build-isolation
+      - cd modal-login && yarn install
+
+  build-image:build:
+    desc: |
+      Удаление ненужных файлов из директории с кодом Gensyn воркера, таких как 
+      автотесты, и сборка Docker образа.
+    cmds:
+      - rm build/rl-swarm/requirements-gpu.txt
+      - rm -r build/rl-swarm/hivemind_exp/tests
+      - rm -r build/rl-swarm/hivemind_exp/configs
+      - rm build/rl-swarm/modal-login/.gitignore
+      - rm build/rl-swarm/modal-login/README.md
+      - docker build --tag gensyn-in-docker:latest .

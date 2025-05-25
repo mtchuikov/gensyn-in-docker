@@ -1,0 +1,18 @@
+#!/bin/sh
+
+exec 2>&1
+
+. /opt/utils/load-env.sh
+load_env /etc/container_environment/ssh.env
+
+if [ "$SSHD_ENABLE" = "true" ]; then
+    rm -f /etc/service/sshd/down
+    ssh-keygen -N "" -t rsa -f /etc/ssh/ssh_host_rsa_key
+    ssh-keygen -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key
+    ssh-keygen -N "" -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key
+    ssh-keygen -N "" -t ed25519 -f /etc/ssh/ssh_host_ed25519_key
+    sshd -D
+else
+    sv down ssh
+    exit 0
+fi

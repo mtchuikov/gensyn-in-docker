@@ -1,0 +1,16 @@
+Port {{ env('SSH_PORT', 22) }}
+AddressFamily {{ env('SSH_ADDRESS_FAMILY', 'inet') }}
+LogLevel {{ env('SSH_LOG_LEVEL', 'INFO') }}
+LoginGraceTime {{ env('SSH_LOGIN_GRACE_TIME', '1m') }}
+PermitRootLogin {{ env('SSH_PERMIT_ROOT_LOGIN', 'yes') }}
+MaxAuthTries {{ env('SSH_MAX_AUTH_TRIES', 3) }}
+MaxSessions {{ env('SSH_MAX_SESSIONS', 3) }}
+PubkeyAuthentication {{ env('SSH_PUBKEY_AUTHENTICATION', 'yes') }}
+AuthorizedKeysFile {{ env('SSH_AUTHORIZED_KEYS_FILE', '.ssh/authorized_keys') }}
+PasswordAuthentication {{ env('SSH_PASSWORD_AUTHENTICATION', 'no') }}
+ChallengeResponseAuthentication {{ env('SSH_CHALLENGE_RESPONSE_AUTHENTICATION', 'no') }}
+KerberosAuthentication {{ env('SSH_KERBEROS_AUTHENTICATION', 'no') }}
+GSSAPIAuthentication {{ env('SSH_GSSAPI_AUTHENTICATION', 'no') }}
+UsePAM {{ env('SSH_USE_PAM', 'yes') }}
+X11Forwarding {{ env('SSH_X11_FORWARDING', 'no') }}
+PrintMotd {{ env('SSH_PRINT_MOTD', 'no') }}

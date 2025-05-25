@@ -1,0 +1,6 @@
+#!/bin/sh
+
+exec 2>&1
+
+cd /opt/swarm/modal-login
+yarn dev > /dev/null 2>&1
