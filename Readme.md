@@ -97,6 +97,10 @@ tailscale | Нет
 
 # Запуск
 
+Перед запуском убедитесь, что на вашей системе установлен NVIDIA Container 
+Toolkit, который позволяет Docker контейнерам использовать ресурсы GPU:
+https://docs.nvidia.com/datacenter/cloud-native/container-toolkit
+
 Для запуска воркера Gensyn при старте контейнера необходимо передать в него
 закодированное в base64 содержимое файлов `userApiKey.json` и `userData.json`.
 Данные файлы генерируются по пути `rl-swarm/modal-login/temp-data` при входе в
